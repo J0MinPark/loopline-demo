@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <%- include('partials/head', { title: '이메일 인증 — Loopline' }) %>
+</head>
+<body>
+  <%- include('partials/nav', { user: null }) %>
+
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <h1>이메일을 확인해 주세요</h1>
+      <p class="sub"><strong><%= email %></strong>로 6자리 코드를 보냈어요.</p>
+
+      <% if (error) { %>
+        <div class="form-error"><%= error %></div>
+      <% } %>
+
+      <form method="POST" action="/verify">
+        <input type="hidden" name="email" value="<%= email %>" />
+        <div class="field">
+          <label for="code">인증 코드</label>
+          <input type="text" id="code" name="code" placeholder="123456" inputmode="numeric" maxlength="6" required autofocus />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">인증하고 시작하기</button>
+      </form>
+
+      <div class="auth-foot">코드가 안 왔나요? <a href="/signup">다시 가입하기</a></div>
+    </div>
+  </div>
+</body>
+</html>

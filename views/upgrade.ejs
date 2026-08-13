@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <%- include('partials/head', { title: 'Pro 업그레이드 — Loopline' }) %>
+</head>
+<body>
+  <%- include('partials/nav', { user }) %>
+
+  <div class="pricing-wrap">
+    <div class="plan-card">
+      <div>Loopline Pro</div>
+      <div class="price">₩29,000 <span>/ 월</span></div>
+      <ul>
+        <li>워크플로우 무제한 등록</li>
+        <li>팀원 초대 무제한</li>
+        <li>실행 이력 1년 보관</li>
+        <li>우선 지원</li>
+      </ul>
+    </div>
+
+    <div class="payment-card">
+      <h2>결제 정보 입력</h2>
+
+      <% if (error) { %>
+        <div class="form-error"><%= error %></div>
+      <% } %>
+
+      <form method="POST" action="/upgrade">
+        <div class="field">
+          <label for="cardHolderName">카드 소유자명</label>
+          <input type="text" id="cardHolderName" name="cardHolderName" placeholder="카드에 표시된 이름" required />
+        </div>
+        <div class="field">
+          <label for="cardNumber">카드 번호</label>
+          <input type="text" id="cardNumber" name="cardNumber" placeholder="0000 0000 0000 0000" inputmode="numeric" required />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="expiry">유효기간 (MM/YY)</label>
+            <input type="text" id="expiry" name="expiry" placeholder="12/28" required />
+          </div>
+          <div class="field">
+            <label for="cvc">CVC</label>
+            <input type="text" id="cvc" name="cvc" placeholder="123" inputmode="numeric" maxlength="4" required />
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">결제하기</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>Loopline 데모 · 이 페이지는 실제 결제 게이트웨이에 연결되어 있지 않습니다. 입력한 카드 정보는 어디에도 전송·저장되지 않습니다.</footer>
+</body>
+</html>

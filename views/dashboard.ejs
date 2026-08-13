@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <%- include('partials/head', { title: '대시보드 — Loopline' }) %>
+</head>
+<body>
+  <%- include('partials/nav', { user }) %>
+
+  <div class="dash-header">
+    <h1>안녕하세요, <%= user.name %>님
+      <span class="plan-badge <%= user.plan %>"><%= user.plan === 'pro' ? 'PRO' : 'FREE' %></span>
+    </h1>
+    <p>등록해둔 워크플로우 3개가 실행 중입니다.</p>
+  </div>
+
+  <% if (user.plan !== 'pro') { %>
+    <div class="upgrade-banner">
+      <p><strong>워크플로우는 최대 3개까지 무료입니다.</strong>더 등록하려면 유료 플랜이 필요해요.</p>
+      <a href="/upgrade" class="btn btn-primary">Pro로 업그레이드</a>
+    </div>
+  <% } %>
+
+  <div class="workflow-grid">
+    <div class="workflow-card">
+      <span class="status">실행 중</span>
+      <h3>신규 팀원 온보딩</h3>
+      <p>계정 생성 → 장비 신청 → 첫 주 체크인까지 자동 진행</p>
+    </div>
+    <div class="workflow-card">
+      <span class="status">실행 중</span>
+      <h3>비용 승인 요청</h3>
+      <p>50만원 이상 지출은 팀장 → 대표 순으로 자동 전달</p>
+    </div>
+    <div class="workflow-card">
+      <span class="status">실행 중</span>
+      <h3>주간 리포트 취합</h3>
+      <p>매주 금요일, 팀원 응답을 모아 자동으로 요약</p>
+    </div>
+  </div>
+
+  <footer>Loopline 데모 · 실제 결제가 발생하지 않는 QA 검증용 사이트입니다.</footer>
+</body>
+</html>

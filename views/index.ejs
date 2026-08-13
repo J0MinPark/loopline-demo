@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/nav', { user }) %>
+
+  <section class="hero">
+    <span class="eyebrow">소규모 팀을 위한 워크플로우 자동화</span>
+    <h1>반복 업무를 한 번만 설계하면,<br />그 다음부턴 팀이 신경 쓸 필요가 없습니다.</h1>
+    <p>온보딩, 승인 요청, 정기 리포트처럼 매번 사람이 챙겨야 했던 흐름을 Loopline에 한 번 등록해두세요. 조건이 맞으면 자동으로 다음 단계가 실행됩니다.</p>
+    <div class="hero-actions">
+      <a href="/signup" class="btn btn-primary">무료로 시작하기</a>
+      <a href="/login" class="btn btn-ghost">로그인</a>
+    </div>
+  </section>
+
+  <div class="features">
+    <div class="feature">
+      <div class="icon">🔁</div>
+      <h3>한 번 설계, 계속 반복</h3>
+      <p>조건과 순서를 한 번 정의하면, 새 요청이 들어올 때마다 같은 흐름이 자동으로 실행됩니다.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">🔔</div>
+      <h3>담당자에게 정확히 전달</h3>
+      <p>다음 단계 담당자에게만 알림이 가고, 완료되면 자동으로 다음 사람에게 넘어갑니다.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">📊</div>
+      <h3>어디서 막혔는지 한눈에</h3>
+      <p>흐름이 오래 멈춰 있는 지점을 대시보드에서 바로 확인할 수 있습니다.</p>
+    </div>
+  </div>
+
+  <footer>Loopline 데모 · 실제 결제가 발생하지 않는 QA 검증용 사이트입니다.</footer>
+</body>
+</html>

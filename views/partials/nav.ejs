@@ -1,0 +1,12 @@
+<div class="nav">
+  <a href="/" class="logo">Loop<span>line</span></a>
+  <div class="nav-links">
+    <% if (typeof user !== 'undefined' && user) { %>
+      <a href="/dashboard">대시보드</a>
+      <a href="/logout">로그아웃</a>
+    <% } else { %>
+      <a href="/login">로그인</a>
+      <a href="/signup" class="btn btn-primary">무료로 시작하기</a>
+    <% } %>
+  </div>
+</div>

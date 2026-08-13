@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <%- include('partials/head', { title: '로그인 — Loopline' }) %>
+</head>
+<body>
+  <%- include('partials/nav', { user: null }) %>
+
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <h1>다시 오셨네요</h1>
+      <p class="sub">계정 정보로 로그인하세요.</p>
+
+      <% if (error) { %>
+        <div class="form-error"><%= error %></div>
+      <% } %>
+
+      <form method="POST" action="/login">
+        <div class="field">
+          <label for="email">이메일</label>
+          <input type="email" id="email" name="email" placeholder="you@company.com" required />
+        </div>
+        <div class="field">
+          <label for="password">비밀번호</label>
+          <input type="password" id="password" name="password" placeholder="비밀번호" required />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">로그인</button>
+      </form>
+
+      <div class="auth-foot">계정이 없으신가요? <a href="/signup">무료로 시작하기</a></div>
+    </div>
+  </div>
+</body>
+</html>
