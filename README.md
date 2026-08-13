@@ -14,9 +14,12 @@ npm start
 
 ## 환경변수 (선택)
 
-SMTP를 설정하지 않으면 인증 코드가 서버 콘솔에 출력됩니다(로컬 개발용).
+`RESEND_API_KEY`를 설정하지 않으면 인증 코드가 서버 콘솔에 출력됩니다(로컬 개발용).
+SMTP가 아니라 [Resend](https://resend.com) REST API로 발송한다 — 대부분의 무료
+호스팅(Render 등)이 아웃바운드 SMTP 포트를 막아두기 때문.
 
-- `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`
+- `RESEND_API_KEY` — Resend API 키
+- `RESEND_FROM` — 발신자(기본값: `Loopline <onboarding@resend.dev>`, 도메인 미인증 시 이 주소만 사용 가능)
 - `SESSION_SECRET`
 
 ## 참고

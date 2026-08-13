@@ -2,7 +2,6 @@ const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const crypto = require('crypto');
-const nodemailer = require('nodemailer');
 
 const app = express();
 const PORT = process.env.PORT || 3300;
@@ -25,29 +24,32 @@ app.use(
 const users = new Map(); // email -> { name, email, password, verified, plan }
 const pendingCodes = new Map(); // email -> { code, expiresAt }
 
-function getTransporter() {
-  if (!process.env.SMTP_HOST) return null;
-  return nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT || 587),
-    secure: process.env.SMTP_SECURE === 'true',
-    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-  });
-}
-
+// SMTP(587 등)는 Render 같은 무료 호스팅에서 아웃바운드 자체가 막혀 있는 경우가 흔하다 —
+// 실제로 Gmail SMTP로 시도했을 때 90초 넘게 연결조차 안 되는 걸 확인했다. Resend의 REST
+// API(HTTPS, 443)로 보내면 이 문제를 피해간다.
 async function sendVerificationEmail(email, code) {
-  const transporter = getTransporter();
-  if (!transporter) {
-    // SMTP 미설정 시(로컬 개발) 콘솔에 코드를 남겨서 흐름을 그대로 테스트할 수 있게 한다.
-    console.log(`[메일 발송 생략 - SMTP 미설정] ${email} 인증 코드: ${code}`);
+  if (!process.env.RESEND_API_KEY) {
+    // API 키 미설정 시(로컬 개발) 콘솔에 코드를 남겨서 흐름을 그대로 테스트할 수 있게 한다.
+    console.log(`[메일 발송 생략 - RESEND_API_KEY 미설정] ${email} 인증 코드: ${code}`);
     return;
   }
-  await transporter.sendMail({
-    from: process.env.SMTP_FROM || 'Loopline <no-reply@loopline.dev>',
-    to: email,
-    subject: `${code} — Loopline 인증 코드`,
-    text: `Loopline 가입을 완료하려면 아래 코드를 입력하세요.\n\n${code}\n\n이 코드는 10분간 유효합니다.`,
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: process.env.RESEND_FROM || 'Loopline <onboarding@resend.dev>',
+      to: [email],
+      subject: `${code} — Loopline 인증 코드`,
+      text: `Loopline 가입을 완료하려면 아래 코드를 입력하세요.\n\n${code}\n\n이 코드는 10분간 유효합니다.`,
+    }),
   });
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    throw new Error(`Resend API 오류: HTTP ${res.status} ${body.slice(0, 200)}`);
+  }
 }
 
 function requireAuth(req, res, next) {
